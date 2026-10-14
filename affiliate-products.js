@@ -1,0 +1,1 @@
+window.AFFILIATE_PRODUCTS = [];
