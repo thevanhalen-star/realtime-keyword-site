@@ -1,5 +1,6 @@
 const CACHE_SECONDS = 600;
 const TREND_LIMIT = 20;
+const CACHE_VERSION = "v2";
 
 export default {
   async fetch(request, env, context) {
@@ -16,7 +17,7 @@ export default {
 async function handleTrends(request, context) {
   const cache = caches.default;
   const origin = new URL(request.url).origin;
-  const cacheKey = new Request(origin + "/api/trends-cache");
+  const cacheKey = new Request(`${origin}/api/trends-cache-${CACHE_VERSION}`);
   const cached = await cache.match(cacheKey);
 
   if (cached) {
