@@ -17,7 +17,7 @@ body{
   width:100%;
   height:100vh;
   margin:0 auto;
-  padding:5px 7px;
+  padding:5px 6px;
 }
 .notice{
   height:25px;
@@ -49,8 +49,38 @@ body{
   color:#777;
   white-space:nowrap;
 }
-.grid{
+.main-layout{
   height:calc(100vh - 66px);
+  display:grid;
+  grid-template-columns:minmax(150px,1fr) minmax(560px,2fr) minmax(150px,1fr);
+  gap:6px;
+}
+.ad-rail{
+  min-width:0;
+  height:100%;
+  display:grid;
+  grid-template-rows:repeat(5,minmax(0,1fr));
+  gap:6px;
+}
+.ad-slot{
+  width:auto;
+  height:100%;
+  aspect-ratio:1/1;
+  justify-self:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#fff;
+  border:1px solid #dfe2e7;
+  border-radius:7px;
+  color:#999;
+  font-size:12px;
+  font-weight:700;
+  overflow:hidden;
+}
+.grid{
+  min-width:0;
+  height:100%;
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
   gap:5px;
@@ -82,20 +112,20 @@ body{
 .rows{
   height:calc(100% - 27px);
   display:grid;
-  grid-template-rows:repeat(10,1fr);
+  grid-template-rows:repeat(20,1fr);
 }
 .row{
   min-height:0;
   display:grid;
-  grid-template-columns:27px minmax(0,1fr);
+  grid-template-columns:22px minmax(0,1fr);
   align-items:center;
-  gap:4px;
-  padding:0 6px;
+  gap:3px;
+  padding:0 5px;
   border-bottom:1px solid #f0f1f3;
 }
 .row:last-child{border-bottom:0}
 .rank{
-  font-size:10px;
+  font-size:9px;
   font-weight:700;
   color:#777;
   text-align:center;
@@ -108,7 +138,7 @@ body{
   white-space:nowrap;
   color:#111;
   text-decoration:none;
-  font-size:12px;
+  font-size:10px;
   font-weight:700;
   line-height:1;
 }
@@ -132,14 +162,27 @@ body{
     display:block;
     margin:2px 0 0;
   }
+  .main-layout{
+    height:auto;
+    grid-template-columns:1fr;
+  }
+  .ad-rail{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-rows:none;
+  }
+  .ad-slot{
+    width:100%;
+    height:auto;
+  }
   .grid{
     height:auto;
-    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-columns:repeat(3,minmax(0,1fr));
   }
-  .panel{height:620px}
+  .panel{height:720px}
 }
 @media(max-width:640px){
   .grid{grid-template-columns:1fr}
+  .panel{height:720px}
 }
 </style>
 </head>
@@ -156,21 +199,39 @@ body{
     <div class="updated" id="updated">갱신 확인 중</div>
   </div>
 
-  <div class="grid">
-    <section class="panel">
-      <div class="panel-head"><div class="country">네이버</div><div class="code">NAVER</div></div>
-      <div class="rows" id="naverList"><div class="message">불러오는 중</div></div>
-    </section>
+  <div class="main-layout">
+    <aside class="ad-rail" aria-label="왼쪽 광고">
+      <div class="ad-slot">AD</div>
+      <div class="ad-slot">AD</div>
+      <div class="ad-slot">AD</div>
+      <div class="ad-slot">AD</div>
+      <div class="ad-slot">AD</div>
+    </aside>
 
-    <section class="panel">
-      <div class="panel-head"><div class="country">구글</div><div class="code">GOOGLE</div></div>
-      <div class="rows" id="googleList"><div class="message">불러오는 중</div></div>
-    </section>
+    <div class="grid">
+      <section class="panel">
+        <div class="panel-head"><div class="country">네이버</div><div class="code">NAVER</div></div>
+        <div class="rows" id="naverList"><div class="message">불러오는 중</div></div>
+      </section>
 
-    <section class="panel">
-      <div class="panel-head"><div class="country">다음</div><div class="code">DAUM</div></div>
-      <div class="rows" id="daumList"><div class="message">불러오는 중</div></div>
-    </section>
+      <section class="panel">
+        <div class="panel-head"><div class="country">구글</div><div class="code">GOOGLE</div></div>
+        <div class="rows" id="googleList"><div class="message">불러오는 중</div></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><div class="country">다음</div><div class="code">DAUM</div></div>
+        <div class="rows" id="daumList"><div class="message">불러오는 중</div></div>
+      </section>
+    </div>
+
+    <aside class="ad-rail" aria-label="오른쪽 광고">
+      <div class="ad-slot">AD</div>
+      <div class="ad-slot">AD</div>
+      <div class="ad-slot">AD</div>
+      <div class="ad-slot">AD</div>
+      <div class="ad-slot">AD</div>
+    </aside>
   </div>
 </div>
 
@@ -190,7 +251,7 @@ function esc(value){
 }
 
 function render(target, rows, searchUrl){
-  const safeRows = Array.isArray(rows) ? rows.slice(0, 10) : [];
+  const safeRows = Array.isArray(rows) ? rows.slice(0, 20) : [];
   const html = safeRows.map((x, idx)=>{
     const pos = x.position || (idx + 1);
     const query = x.query || "";

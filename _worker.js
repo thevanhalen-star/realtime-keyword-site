@@ -1,4 +1,5 @@
 const CACHE_SECONDS = 600;
+const TREND_LIMIT = 20;
 
 export default {
   async fetch(request, env, context) {
@@ -59,7 +60,9 @@ async function fetchNaverTrends() {
   }
 
   const payload = await response.json();
-  return (payload.top10 || []).slice(0, 10).map((item, index) => ({
+  const source = payload.top20 || payload.top10 || [];
+
+  return source.slice(0, TREND_LIMIT).map((item, index) => ({
     position: Number(item.rank) || index + 1,
     query: String(item.keyword || "").trim()
   })).filter((item) => item.query);
@@ -79,7 +82,7 @@ async function fetchGoogleTrends() {
   }
 
   const xml = await response.text();
-  return parseRssTitles(xml).slice(0, 10).map((query, index) => ({
+  return parseRssTitles(xml).slice(0, TREND_LIMIT).map((query, index) => ({
     position: index + 1,
     query
   }));
@@ -120,7 +123,7 @@ function parseDaumKeywords(html) {
   const pattern = /"keyword":"((?:\\.|[^"\\])*)","rank":\d+,"displayRank":(\d+)/g;
   let match;
 
-  while ((match = pattern.exec(source)) && rows.length < 10) {
+  while ((match = pattern.exec(source)) && rows.length < TREND_LIMIT) {
     const query = decodeJsonString(match[1]).trim();
     if (!query || seen.has(query)) continue;
 
