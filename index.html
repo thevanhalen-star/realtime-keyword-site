@@ -17,10 +17,10 @@ body{
   width:100%;
   height:100vh;
   margin:0 auto;
-  padding:5px 6px;
+  padding:4px;
 }
 .notice{
-  height:25px;
+  height:24px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -28,23 +28,22 @@ body{
   font-weight:700;
 }
 .header{
-  height:31px;
+  position:relative;
+  height:34px;
   display:flex;
   align-items:center;
-  justify-content:space-between;
+  justify-content:center;
   padding:0 2px;
 }
 .header h1{
   margin:0;
-  font-size:20px;
-}
-.subtitle{
-  margin-left:8px;
-  font-size:11px;
-  color:#777;
-  font-weight:400;
+  font-size:22px;
+  text-align:center;
 }
 .updated{
+  position:absolute;
+  right:2px;
+  bottom:3px;
   font-size:10px;
   color:#777;
   white-space:nowrap;
@@ -53,14 +52,14 @@ body{
   height:calc(100vh - 66px);
   display:grid;
   grid-template-columns:minmax(150px,1fr) minmax(560px,2fr) minmax(150px,1fr);
-  gap:6px;
+  gap:3px;
 }
 .ad-rail{
   min-width:0;
   height:100%;
   display:grid;
-  grid-template-rows:repeat(5,minmax(0,1fr));
-  gap:6px;
+  grid-template-rows:repeat(4,minmax(0,1fr));
+  gap:5px;
 }
 .ad-slot{
   width:auto;
@@ -83,7 +82,7 @@ body{
   height:100%;
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:5px;
+  gap:4px;
 }
 .panel{
   height:100%;
@@ -94,10 +93,11 @@ body{
   overflow:hidden;
 }
 .panel-head{
+  position:relative;
   height:27px;
   display:flex;
   align-items:center;
-  justify-content:space-between;
+  justify-content:center;
   padding:0 7px;
   border-bottom:1px solid #e8eaed;
 }
@@ -106,6 +106,8 @@ body{
   font-weight:800;
 }
 .code{
+  position:absolute;
+  right:7px;
   font-size:9px;
   color:#777;
 }
@@ -163,15 +165,17 @@ body{
     line-height:1.3;
   }
   .header{
+    justify-content:center;
     height:auto;
-    align-items:flex-start;
+    align-items:center;
+    flex-direction:column;
     gap:6px;
-    padding:4px 2px 8px;
+    padding:4px 2px 2px;
   }
-  .header h1{font-size:19px}
-  .subtitle{
-    display:block;
-    margin:2px 0 0;
+  .header h1{font-size:20px}
+  .updated{
+    position:static;
+    margin-left:0;
   }
   .main-layout{
     height:auto;
@@ -194,20 +198,15 @@ body{
 </head>
 <body>
 <div class="wrap">
-  <div class="notice">네이버 · 구글 · 다음 실시간 급상승 키워드를 10분 간격으로 업데이트합니다.</div>
-
   <div class="header">
-    <div>
-      <h1>실시간 급상승 키워드
-        <span class="subtitle">네이버 · 구글 · 다음</span>
-      </h1>
-    </div>
+    <h1>실시간 급상승 키워드</h1>
     <div class="updated" id="updated">갱신 확인 중</div>
   </div>
 
+  <div class="notice">네이버 · 구글 · 다음 실시간 급상승 키워드를 10분 간격으로 업데이트합니다.</div>
+
   <div class="main-layout">
     <aside class="ad-rail" aria-label="왼쪽 광고">
-      <div class="ad-slot">AD</div>
       <div class="ad-slot">AD</div>
       <div class="ad-slot">AD</div>
       <div class="ad-slot">AD</div>
@@ -232,7 +231,6 @@ body{
     </div>
 
     <aside class="ad-rail" aria-label="오른쪽 광고">
-      <div class="ad-slot">AD</div>
       <div class="ad-slot">AD</div>
       <div class="ad-slot">AD</div>
       <div class="ad-slot">AD</div>
