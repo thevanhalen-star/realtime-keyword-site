@@ -152,9 +152,16 @@ body{
   font-size:15px;
   color:#666;
 }
-@media(max-width:1000px){
+@media(max-width:1200px){
   body{overflow:auto}
   .wrap{height:auto}
+  .notice{
+    min-height:25px;
+    height:auto;
+    padding:4px 6px;
+    text-align:center;
+    line-height:1.3;
+  }
   .header{
     height:auto;
     align-items:flex-start;
@@ -171,12 +178,7 @@ body{
     grid-template-columns:1fr;
   }
   .ad-rail{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    grid-template-rows:none;
-  }
-  .ad-slot{
-    width:100%;
-    height:auto;
+    display:none;
   }
   .grid{
     height:auto;
