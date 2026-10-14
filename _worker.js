@@ -70,6 +70,11 @@ async function fetchNaverTrends() {
 }
 
 async function fetchGoogleTrends() {
+  const daily = await safeGoogleDailyTrends();
+  if (daily.length) {
+    return daily;
+  }
+
   const url = "https://trends.google.com/trending/rss?geo=KR";
   const response = await fetch(url, {
     headers: {
@@ -87,6 +92,34 @@ async function fetchGoogleTrends() {
     position: index + 1,
     query
   }));
+}
+
+async function safeGoogleDailyTrends() {
+  try {
+    const url = "https://trends.google.com/trends/api/dailytrends?hl=ko&tz=-540&geo=KR&ns=15";
+    const response = await fetch(url, {
+      headers: {
+        "User-Agent": "Mozilla/5.0",
+        "Accept": "application/json,text/plain,*/*"
+      }
+    });
+
+    if (!response.ok) {
+      return [];
+    }
+
+    const text = await response.text();
+    const jsonText = text.replace(/^\)\]\}',?\s*/, "");
+    const payload = JSON.parse(jsonText);
+    const items = payload?.default?.trendingSearchesDays?.[0]?.trendingSearches || [];
+
+    return items.slice(0, TREND_LIMIT).map((item, index) => ({
+      position: index + 1,
+      query: String(item?.title?.query || "").trim()
+    })).filter((item) => item.query);
+  } catch (error) {
+    return [];
+  }
 }
 
 async function fetchDaumTrends() {
