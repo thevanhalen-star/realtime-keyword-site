@@ -1,6 +1,14 @@
 <!doctype html>
 <html lang="ko">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RQ51W3D2QJ"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-RQ51W3D2QJ');
+</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>실시간 급상승 키워드 - 네이버 구글 다음 트렌드</title>
@@ -293,7 +301,7 @@ function esc(value){
     .replaceAll('"',"&quot;");
 }
 
-function render(target, rows, searchUrl){
+function render(target, rows, searchUrl, provider){
   const safeRows = Array.isArray(rows) ? rows.slice(0, 10) : [];
   const html = safeRows.map((x, idx)=>{
     const pos = x.position || (idx + 1);
@@ -307,6 +315,9 @@ function render(target, rows, searchUrl){
          href="${esc(href)}"
          target="_blank"
          rel="noopener"
+         data-provider="${esc(provider)}"
+         data-keyword="${esc(query)}"
+         data-rank="${esc(pos)}"
          title="${esc(query)}">${esc(query)}</a>
     </div>`;
   }).join("");
@@ -333,7 +344,7 @@ async function loadTrends(){
     if (!response.ok) throw new Error("HTTP " + response.status);
 
     const payload = await response.json();
-    PANELS.forEach(([target, key, searchUrl]) => render(target, payload.data?.[key], searchUrl));
+    PANELS.forEach(([target, key, searchUrl]) => render(target, payload.data?.[key], searchUrl, key));
     document.getElementById("updated").textContent = "갱신 " + formatUpdated(payload.updatedAt);
   } catch (error) {
     document.getElementById("updated").textContent = "갱신 실패";
@@ -342,6 +353,18 @@ async function loadTrends(){
     });
   }
 }
+
+document.addEventListener("click", (event) => {
+  const link = event.target.closest("a.query");
+  if (!link || typeof gtag !== "function") return;
+
+  gtag("event", "keyword_click", {
+    provider: link.dataset.provider || "",
+    keyword: link.dataset.keyword || "",
+    rank: Number(link.dataset.rank || 0),
+    link_url: link.href
+  });
+});
 
 loadTrends();
 setInterval(loadTrends, 10 * 60 * 1000);
