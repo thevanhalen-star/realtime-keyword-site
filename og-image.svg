@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Jump Keyword social share image">
+  <rect width="1200" height="630" fill="#f4f5f7"/>
+  <rect x="48" y="48" width="1104" height="534" rx="54" fill="#111827"/>
+  <circle cx="1062" cy="140" r="96" fill="#ef4444" opacity=".12"/>
+  <circle cx="1110" cy="520" r="170" fill="#ffffff" opacity=".035"/>
+  <g transform="translate(112 176) scale(.48)">
+    <rect width="512" height="512" rx="108" fill="#ffffff"/>
+    <path d="M118 102h92v214c0 79-43 122-119 122-38 0-69-13-92-39l57-58c10 12 21 18 34 18 19 0 28-13 28-43V102z" fill="#111827"/>
+    <path d="M238 341l102-102-43-43h140v140l-43-43-102 102z" fill="#ef4444"/>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="416" y="205" fill="#d1d5db" font-size="34" font-weight="700" letter-spacing="5">REAL-TIME TRENDING</text>
+    <text x="410" y="310" fill="#ffffff" font-size="92" font-weight="900" letter-spacing="-2">JUMP KEYWORD</text>
+    <rect x="414" y="349" width="624" height="4" rx="2" fill="#ef4444"/>
+    <text x="416" y="418" fill="#ffffff" font-size="36" font-weight="700" letter-spacing="4">NAVER · GOOGLE · DAUM</text>
+    <text x="416" y="486" fill="#9ca3af" font-size="28" font-weight="700" letter-spacing="3">JUMPKEYWORD.COM</text>
+  </g>
+</svg>
