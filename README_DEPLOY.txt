@@ -7,6 +7,8 @@ Cloudflare Pages 배포용 폴더입니다.
 - data-source.html
 - privacy.html
 - contact.html
+- guide.html
+- faq.html
 - naver2f415cb83d1d06d115dc0c27419ba4b3.html
 - favicon.ico
 - favicon.svg
@@ -26,6 +28,7 @@ Cloudflare Pages 배포용 폴더입니다.
 - 구글 실시간 급상승 키워드 10개
 - 다음 실시간 급상승 키워드 10개
 - 사이트 소개, 데이터 출처, 개인정보처리방침, 문의 페이지
+- 실시간 키워드 이용·해석 가이드와 자주 묻는 질문 페이지
 
 Cloudflare Pages 업로드 방법
 1. Cloudflare 로그인
@@ -57,3 +60,4 @@ Cloudflare Pages 업로드 방법
 - 네이버 소유권 확인 파일이 포함되어 있으므로 삭제하지 마세요.
 - 브라우저 파비콘, Apple 터치 아이콘, Android 아이콘과 웹 앱 manifest가 적용되어 있습니다.
 - 카카오톡, 네이버, 페이스북, X 등 링크 공유용 1200x630 대표 이미지와 Open Graph 메타태그가 적용되어 있습니다.
+- 애드센스 심사와 사용자 이해를 위한 자체 콘텐츠, 서비스별 데이터 차이, 지연 및 한계 설명이 포함되어 있습니다.
