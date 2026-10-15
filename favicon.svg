@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Jump Keyword">
+  <rect width="512" height="512" rx="108" fill="#111827"/>
+  <path d="M118 102h92v214c0 79-43 122-119 122-38 0-69-13-92-39l57-58c10 12 21 18 34 18 19 0 28-13 28-43V102z" fill="#fff"/>
+  <path d="M238 341l102-102-43-43h140v140l-43-43-102 102z" fill="#ef4444"/>
+</svg>

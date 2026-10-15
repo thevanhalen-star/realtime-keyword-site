@@ -8,6 +8,14 @@ Cloudflare Pages 배포용 폴더입니다.
 - privacy.html
 - contact.html
 - naver2f415cb83d1d06d115dc0c27419ba4b3.html
+- favicon.ico
+- favicon.svg
+- favicon-32x32.png
+- favicon-48x48.png
+- apple-touch-icon.png
+- android-chrome-192x192.png
+- android-chrome-512x512.png
+- site.webmanifest
 - robots.txt
 - sitemap.xml
 
@@ -45,3 +53,4 @@ Cloudflare Pages 업로드 방법
 - Google Analytics 측정 ID G-RQ51W3D2QJ가 5개 페이지에 적용되어 있습니다.
 - 키워드 클릭은 Google Analytics의 keyword_click 이벤트로 기록됩니다.
 - 네이버 소유권 확인 파일이 포함되어 있으므로 삭제하지 마세요.
+- 브라우저 파비콘, Apple 터치 아이콘, Android 아이콘과 웹 앱 manifest가 적용되어 있습니다.
