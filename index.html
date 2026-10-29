@@ -58,12 +58,7 @@ gtag('config', 'G-RQ51W3D2QJ');
   "alternateName": "실시간 급상승 키워드",
   "url": "https://www.jumpkeyword.com/",
   "inLanguage": "ko-KR",
-  "description": "네이버, 구글, 다음 실시간 급상승 키워드를 한 화면에서 확인할 수 있는 한국어 트렌드 모니터링 도구입니다.",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://www.google.com/search?q={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
+  "description": "네이버, 구글, 다음 실시간 급상승 키워드를 한 화면에서 확인할 수 있는 한국어 트렌드 모니터링 도구입니다."
 }
 </script>
 <style>
@@ -437,6 +432,7 @@ html[data-theme="dark"] .updated{background:#1f2227;border-color:#31353c}
       <a href="/about.html">사이트 소개</a>
       <a href="/data-source.html">데이터 출처</a>
       <a href="/privacy.html">개인정보처리방침</a>
+      <a href="/terms.html">이용약관·면책</a>
       <a href="/contact.html">문의</a>
     </nav>
   </footer>
@@ -482,8 +478,10 @@ function updateSnapshot(payload){
 }
 
 function changeBadge(prev, provider, query, pos){
-  if (!prev) return "";
-  const before = prev.ranks?.[provider]?.[norm(query)];
+  const known = prev?.ranks?.[provider];
+  // 직전 스냅샷이 없거나 그 포털이 비어 있었다면(수집 실패 등) 비교하지 않는다.
+  if (!known || !Object.keys(known).length) return "";
+  const before = known[norm(query)];
   if (before === undefined) return '<span class="chg new">NEW</span>';
   const diff = before - pos;
   if (diff > 0) return `<span class="chg up">▲${diff}</span>`;
