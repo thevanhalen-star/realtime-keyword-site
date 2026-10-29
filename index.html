@@ -189,7 +189,66 @@ body{
   font-size:15px;
   color:#666;
 }
+.row{grid-template-columns:28px minmax(0,1fr) auto}
+.badges{display:flex;align-items:center;gap:4px;white-space:nowrap}
+.chg{font-size:10px;font-weight:700;color:#777}
+.chg.up{color:#d71920}
+.chg.down{color:#1a5fd0}
+.chg.new{color:#fff;background:#d71920;border-radius:3px;padding:1px 4px}
+.common-tag{font-size:10px;font-weight:700;color:#8a5a00;background:#fff1c9;border-radius:3px;padding:1px 4px}
+.tools{
+  width:100%;
+  max-width:1180px;
+  margin:7px auto 0;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:4px;
+}
+.box{
+  background:#fff;
+  border:1px solid #dfe2e7;
+  border-radius:7px;
+  padding:10px 12px;
+  min-width:0;
+}
+.box h2{margin:0 0 8px;font-size:14px}
+.search-form{display:flex;gap:6px;flex-wrap:wrap}
+.search-form input{
+  flex:1 1 160px;
+  min-width:0;
+  padding:8px 10px;
+  font-size:14px;
+  border:1px solid #cfd3da;
+  border-radius:6px;
+  background:#fff;
+  color:inherit;
+}
+.search-form button{
+  padding:8px 12px;
+  font-size:13px;
+  font-weight:700;
+  border:1px solid #cfd3da;
+  border-radius:6px;
+  background:#f4f5f7;
+  color:inherit;
+  cursor:pointer;
+}
+.search-form button:hover{background:#e8eaed}
+.common-list{display:flex;flex-wrap:wrap;gap:6px}
+.common-list a{
+  font-size:13px;
+  font-weight:700;
+  color:#111;
+  text-decoration:none;
+  background:#fff1c9;
+  border-radius:14px;
+  padding:4px 10px;
+}
+.common-list a small{font-weight:400;color:#8a5a00;margin-left:4px}
+.common-list a:hover{text-decoration:underline}
+.hint{margin:0;font-size:12px;color:#777}
 .info-strip{
+  width:100%;
   max-width:1180px;
   margin:7px auto 0;
   padding:7px 8px;
@@ -217,7 +276,24 @@ body{
   font-weight:700;
 }
 .site-links a:hover{text-decoration:underline}
+@media(prefers-color-scheme:dark){
+  body{background:#15171a;color:#e8eaed}
+  .panel,.box,.info-strip{background:#1f2227;border-color:#31353c}
+  .panel-head{border-bottom-color:#31353c}
+  .row{border-bottom-color:#2a2e34}
+  .query,.site-links a,.common-list a{color:#e8eaed}
+  .row.hot .rank,.row.hot .query{color:#ff6b70}
+  .chg.up{color:#ff6b70}
+  .chg.down{color:#6ea2ff}
+  .common-tag,.common-list a{background:#4a3a12}
+  .common-tag,.common-list a small{color:#ffd678}
+  .search-form input{background:#15171a;border-color:#3a3f47}
+  .search-form button{background:#2a2e34;border-color:#3a3f47}
+  .search-form button:hover{background:#353a42}
+  .info-strip,.message,.rank,.code,.updated,.hint{color:#9aa0a8}
+}
 @media(max-width:1200px){
+  .tools{grid-template-columns:1fr}
   .wrap{height:auto}
   .notice{
     min-height:25px;
@@ -288,6 +364,22 @@ body{
     </div>
   </div>
 
+  <div class="tools">
+    <section class="box">
+      <h2>바로 검색</h2>
+      <form class="search-form" id="searchForm">
+        <input type="search" id="searchInput" placeholder="검색어를 입력하세요" aria-label="검색어" required>
+        <button type="submit" data-engine="naver">네이버</button>
+        <button type="submit" data-engine="google">구글</button>
+        <button type="submit" data-engine="daum">다음</button>
+      </form>
+    </section>
+    <section class="box">
+      <h2>동시에 오른 키워드</h2>
+      <div class="common-list" id="commonList"><p class="hint">불러오는 중</p></div>
+    </section>
+  </div>
+
   <footer class="info-strip">
     <div>Jump Keyword는 국내 주요 검색 서비스의 공개 트렌드 흐름을 한 화면에서 확인할 수 있도록 정리한 모니터링 도구입니다.</div>
     <nav class="site-links" aria-label="사이트 정보">
@@ -316,13 +408,48 @@ function esc(value){
     .replaceAll('"',"&quot;");
 }
 
-function render(target, rows, searchUrl, provider){
+const norm = (s) => String(s ?? "").toLowerCase().replace(/\s+/g, "");
+const STORE_KEY = "jk_rank_snapshot_v1";
+
+function readStore(){
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch (e) { return {}; }
+}
+
+// 갱신 시각이 바뀔 때만 현재 스냅샷을 이전 스냅샷으로 넘긴다.
+function updateSnapshot(payload){
+  const store = readStore();
+  const stamp = payload.updatedAt || "";
+  if (store.current && store.current.stamp !== stamp) store.prev = store.current;
+  if (!store.current || store.current.stamp !== stamp) {
+    const ranks = {};
+    PANELS.forEach(([, key]) => {
+      ranks[key] = {};
+      (payload.data?.[key] || []).slice(0, 10).forEach((x, i) => { ranks[key][norm(x.query)] = x.position || i + 1; });
+    });
+    store.current = { stamp, ranks };
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch (e) {}
+  }
+  return store.prev || null;
+}
+
+function changeBadge(prev, provider, query, pos){
+  if (!prev) return "";
+  const before = prev.ranks?.[provider]?.[norm(query)];
+  if (before === undefined) return '<span class="chg new">NEW</span>';
+  const diff = before - pos;
+  if (diff > 0) return `<span class="chg up">▲${diff}</span>`;
+  if (diff < 0) return `<span class="chg down">▼${-diff}</span>`;
+  return '<span class="chg">-</span>';
+}
+
+function render(target, rows, searchUrl, provider, prev, commonSet){
   const safeRows = Array.isArray(rows) ? rows.slice(0, 10) : [];
   const html = safeRows.map((x, idx)=>{
     const pos = x.position || (idx + 1);
     const query = x.query || "";
     const href = (x.url && /^https?:\/\//.test(x.url)) ? x.url : searchUrl + encodeURIComponent(query);
     const hotClass = idx === 0 ? " hot" : "";
+    const common = commonSet.has(norm(query)) ? '<span class="common-tag">동시</span>' : "";
 
     return `<div class="row${hotClass}">
       <div class="rank">${String(pos).padStart(2,"0")}</div>
@@ -334,6 +461,7 @@ function render(target, rows, searchUrl, provider){
          data-keyword="${esc(query)}"
          data-rank="${esc(pos)}"
          title="${esc(query)}">${esc(query)}</a>
+      <div class="badges">${common}${changeBadge(prev, provider, query, pos)}</div>
     </div>`;
   }).join("");
 
@@ -353,13 +481,57 @@ function formatUpdated(value){
   }).format(date);
 }
 
+const NAMES = { naver: "네이버", google: "구글", daum: "다음" };
+
+function findCommon(data){
+  const map = new Map();
+  PANELS.forEach(([, key]) => {
+    (data?.[key] || []).slice(0, 10).forEach((x) => {
+      const n = norm(x.query);
+      if (!n) return;
+      if (!map.has(n)) map.set(n, { norm: n, query: x.query, providers: [] });
+      map.get(n).providers.push(key);
+    });
+  });
+  return [...map.values()].filter((c) => c.providers.length >= 2);
+}
+
+function renderCommon(common){
+  const el = document.getElementById("commonList");
+  if (!common.length) {
+    el.innerHTML = '<p class="hint">지금은 2곳 이상에 동시에 오른 키워드가 없습니다.</p>';
+    return;
+  }
+  el.innerHTML = common.map((c) =>
+    `<a href="https://www.google.com/search?q=${encodeURIComponent(c.query)}" target="_blank" rel="noopener">${esc(c.query)}<small>${c.providers.map((p) => NAMES[p]).join("·")}</small></a>`
+  ).join("");
+}
+
+const ENGINES = {
+  naver: "https://search.naver.com/search.naver?query=",
+  google: "https://www.google.com/search?q=",
+  daum: "https://search.daum.net/search?w=tot&q="
+};
+
+document.getElementById("searchForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const q = document.getElementById("searchInput").value.trim();
+  const engine = event.submitter?.dataset.engine || "naver";
+  if (!q) return;
+  window.open(ENGINES[engine] + encodeURIComponent(q), "_blank", "noopener");
+});
+
 async function loadTrends(){
   try {
     const response = await fetch("/api/trends", { cache: "no-store" });
     if (!response.ok) throw new Error("HTTP " + response.status);
 
     const payload = await response.json();
-    PANELS.forEach(([target, key, searchUrl]) => render(target, payload.data?.[key], searchUrl, key));
+    const prev = updateSnapshot(payload);
+    const common = findCommon(payload.data);
+    const commonSet = new Set(common.map((c) => c.norm));
+    PANELS.forEach(([target, key, searchUrl]) => render(target, payload.data?.[key], searchUrl, key, prev, commonSet));
+    renderCommon(common);
     document.getElementById("updated").textContent = "갱신 " + formatUpdated(payload.updatedAt);
   } catch (error) {
     document.getElementById("updated").textContent = "갱신 실패";
