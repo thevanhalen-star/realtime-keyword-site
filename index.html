@@ -23,6 +23,14 @@ gtag('config', 'G-RQ51W3D2QJ');
 <meta name="author" content="Jump Keyword">
 <meta name="application-name" content="Jump Keyword">
 <meta name="theme-color" content="#f4f5f7">
+<script>
+(function(){
+  var theme = "";
+  try { theme = localStorage.getItem("jk_theme") || ""; } catch (e) {}
+  if (!theme && window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) theme = "dark";
+  if (theme === "dark") document.documentElement.setAttribute("data-theme", "dark");
+})();
+</script>
 <meta name="format-detection" content="telephone=no">
 <link rel="canonical" href="https://www.jumpkeyword.com/">
 <meta property="og:type" content="website">
@@ -276,22 +284,47 @@ body{
   font-weight:700;
 }
 .site-links a:hover{text-decoration:underline}
-@media(prefers-color-scheme:dark){
-  body{background:#15171a;color:#e8eaed}
-  .panel,.box,.info-strip{background:#1f2227;border-color:#31353c}
-  .panel-head{border-bottom-color:#31353c}
-  .row{border-bottom-color:#2a2e34}
-  .query,.site-links a,.common-list a{color:#e8eaed}
-  .row.hot .rank,.row.hot .query{color:#ff6b70}
-  .chg.up{color:#ff6b70}
-  .chg.down{color:#6ea2ff}
-  .common-tag,.common-list a{background:#4a3a12}
-  .common-tag,.common-list a small{color:#ffd678}
-  .search-form input{background:#15171a;border-color:#3a3f47}
-  .search-form button{background:#2a2e34;border-color:#3a3f47}
-  .search-form button:hover{background:#353a42}
-  .info-strip,.message,.rank,.code,.updated,.hint{color:#9aa0a8}
+.theme-toggle{
+  position:absolute;
+  left:2px;
+  top:50%;
+  transform:translateY(-50%);
+  padding:4px 10px;
+  font-size:12px;
+  font-weight:700;
+  border:1px solid #cfd3da;
+  border-radius:14px;
+  background:#fff;
+  color:#333;
+  cursor:pointer;
 }
+html[data-theme="dark"] body{background:#15171a;color:#e8eaed}
+html[data-theme="dark"] .panel,
+html[data-theme="dark"] .box,
+html[data-theme="dark"] .info-strip{background:#1f2227;border-color:#31353c}
+html[data-theme="dark"] .panel-head{border-bottom-color:#31353c}
+html[data-theme="dark"] .row{border-bottom-color:#2a2e34}
+html[data-theme="dark"] .query,
+html[data-theme="dark"] .site-links a,
+html[data-theme="dark"] .common-list a{color:#e8eaed}
+html[data-theme="dark"] .row.hot .rank,
+html[data-theme="dark"] .row.hot .query{color:#ff6b70}
+html[data-theme="dark"] .chg.up{color:#ff6b70}
+html[data-theme="dark"] .chg.down{color:#6ea2ff}
+html[data-theme="dark"] .common-tag,
+html[data-theme="dark"] .common-list a{background:#4a3a12}
+html[data-theme="dark"] .common-tag,
+html[data-theme="dark"] .common-list a small{color:#ffd678}
+html[data-theme="dark"] .search-form input{background:#15171a;border-color:#3a3f47}
+html[data-theme="dark"] .search-form button{background:#2a2e34;border-color:#3a3f47}
+html[data-theme="dark"] .search-form button:hover{background:#353a42}
+html[data-theme="dark"] .theme-toggle{background:#2a2e34;border-color:#3a3f47;color:#e8eaed}
+html[data-theme="dark"] .info-strip,
+html[data-theme="dark"] .message,
+html[data-theme="dark"] .rank,
+html[data-theme="dark"] .code,
+html[data-theme="dark"] .updated,
+html[data-theme="dark"] .hint{color:#9aa0a8}
 @media(max-width:1200px){
   .tools{grid-template-columns:1fr}
   .wrap{height:auto}
@@ -339,6 +372,7 @@ body{
 <body>
 <div class="wrap">
   <div class="header">
+    <button type="button" class="theme-toggle" id="themeToggle" aria-label="화면 모드 전환"></button>
     <h1>실시간 급상승 키워드</h1>
     <div class="updated" id="updated">갱신 확인 중</div>
   </div>
@@ -506,6 +540,23 @@ function renderCommon(common){
     `<a href="https://www.google.com/search?q=${encodeURIComponent(c.query)}" target="_blank" rel="noopener">${esc(c.query)}<small>${c.providers.map((p) => NAMES[p]).join("·")}</small></a>`
   ).join("");
 }
+
+const themeToggle = document.getElementById("themeToggle");
+
+function syncThemeButton(){
+  const dark = document.documentElement.getAttribute("data-theme") === "dark";
+  themeToggle.textContent = dark ? "☀ 라이트" : "🌙 다크";
+}
+
+themeToggle.addEventListener("click", () => {
+  const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  if (next === "dark") document.documentElement.setAttribute("data-theme", "dark");
+  else document.documentElement.removeAttribute("data-theme");
+  try { localStorage.setItem("jk_theme", next); } catch (e) {}
+  syncThemeButton();
+});
+
+syncThemeButton();
 
 const ENGINES = {
   naver: "https://search.naver.com/search.naver?query=",
