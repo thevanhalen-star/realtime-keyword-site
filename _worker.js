@@ -1,7 +1,6 @@
 const CACHE_SECONDS = 600;
 const TREND_LIMIT = 10;
-const YOUTUBE_LIMIT = 30;
-const CACHE_VERSION = "v9-youtube30";
+const CACHE_VERSION = "v10-top10";
 
 export default {
   async fetch(request, env, context) {
@@ -25,21 +24,15 @@ async function handleTrends(request, env, context) {
     return withCors(cached);
   }
 
-  let youtubeError = "";
-  const [naver, google, daum, youtube] = await Promise.all([
+  const [naver, google, daum] = await Promise.all([
     safeFetch(fetchNaverTrends),
     safeFetch(fetchGoogleTrends),
-    safeFetch(fetchDaumTrends),
-    fetchYouTubeTrends(env.YOUTUBE_API_KEY).catch((error) => {
-      youtubeError = String(error.message || error);
-      return [];
-    })
+    safeFetch(fetchDaumTrends)
   ]);
 
   const response = jsonResponse({
     updatedAt: new Date().toISOString(),
-    data: { naver, google, daum, youtube },
-    ...(youtubeError ? { youtubeError } : {})
+    data: { naver, google, daum }
   });
 
   response.headers.set("Cache-Control", `public, max-age=${CACHE_SECONDS}`);
@@ -143,36 +136,6 @@ async function fetchDaumTrends() {
 
   const html = await response.text();
   return parseDaumKeywords(html);
-}
-
-async function fetchYouTubeTrends(apiKey) {
-  if (!apiKey) {
-    throw new Error("YOUTUBE_API_KEY is not set");
-  }
-
-  const params = new URLSearchParams({
-    part: "snippet",
-    chart: "mostPopular",
-    regionCode: "KR",
-    maxResults: String(YOUTUBE_LIMIT),
-    key: apiKey
-  });
-  const response = await fetch(`https://www.googleapis.com/youtube/v3/videos?${params}`, {
-    headers: { "Accept": "application/json" }
-  });
-
-  if (!response.ok) {
-    const body = await response.json().catch(() => ({}));
-    const reason = body?.error?.errors?.[0]?.reason || body?.error?.status || "";
-    throw new Error(`YouTube API failed: ${response.status} ${reason}`.trim());
-  }
-
-  const payload = await response.json();
-  return (payload.items || []).slice(0, YOUTUBE_LIMIT).map((item, index) => ({
-    position: index + 1,
-    query: String(item?.snippet?.title || "").trim(),
-    url: `https://www.youtube.com/watch?v=${encodeURIComponent(item?.id || "")}`
-  })).filter((item) => item.query && item.url.length > 32);
 }
 
 function parseRssTitles(xml) {
