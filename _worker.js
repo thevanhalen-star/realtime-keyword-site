@@ -1,6 +1,7 @@
 const CACHE_SECONDS = 600;
 const TREND_LIMIT = 10;
-const CACHE_VERSION = "v8-youtube";
+const YOUTUBE_LIMIT = 30;
+const CACHE_VERSION = "v9-youtube30";
 
 export default {
   async fetch(request, env, context) {
@@ -153,7 +154,7 @@ async function fetchYouTubeTrends(apiKey) {
     part: "snippet",
     chart: "mostPopular",
     regionCode: "KR",
-    maxResults: String(TREND_LIMIT),
+    maxResults: String(YOUTUBE_LIMIT),
     key: apiKey
   });
   const response = await fetch(`https://www.googleapis.com/youtube/v3/videos?${params}`, {
@@ -167,10 +168,9 @@ async function fetchYouTubeTrends(apiKey) {
   }
 
   const payload = await response.json();
-  return (payload.items || []).slice(0, TREND_LIMIT).map((item, index) => ({
+  return (payload.items || []).slice(0, YOUTUBE_LIMIT).map((item, index) => ({
     position: index + 1,
     query: String(item?.snippet?.title || "").trim(),
-    channel: String(item?.snippet?.channelTitle || "").trim(),
     url: `https://www.youtube.com/watch?v=${encodeURIComponent(item?.id || "")}`
   })).filter((item) => item.query && item.url.length > 32);
 }
