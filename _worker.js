@@ -24,16 +24,21 @@ async function handleTrends(request, env, context) {
     return withCors(cached);
   }
 
+  let youtubeError = "";
   const [naver, google, daum, youtube] = await Promise.all([
     safeFetch(fetchNaverTrends),
     safeFetch(fetchGoogleTrends),
     safeFetch(fetchDaumTrends),
-    safeFetch(() => fetchYouTubeTrends(env.YOUTUBE_API_KEY))
+    fetchYouTubeTrends(env.YOUTUBE_API_KEY).catch((error) => {
+      youtubeError = String(error.message || error);
+      return [];
+    })
   ]);
 
   const response = jsonResponse({
     updatedAt: new Date().toISOString(),
-    data: { naver, google, daum, youtube }
+    data: { naver, google, daum, youtube },
+    ...(youtubeError ? { youtubeError } : {})
   });
 
   response.headers.set("Cache-Control", `public, max-age=${CACHE_SECONDS}`);
@@ -141,7 +146,7 @@ async function fetchDaumTrends() {
 
 async function fetchYouTubeTrends(apiKey) {
   if (!apiKey) {
-    return [];
+    throw new Error("YOUTUBE_API_KEY is not set");
   }
 
   const params = new URLSearchParams({
@@ -156,7 +161,9 @@ async function fetchYouTubeTrends(apiKey) {
   });
 
   if (!response.ok) {
-    throw new Error(`YouTube API failed: ${response.status}`);
+    const body = await response.json().catch(() => ({}));
+    const reason = body?.error?.errors?.[0]?.reason || body?.error?.status || "";
+    throw new Error(`YouTube API failed: ${response.status} ${reason}`.trim());
   }
 
   const payload = await response.json();
