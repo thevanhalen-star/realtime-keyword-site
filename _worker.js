@@ -1,6 +1,6 @@
 const CACHE_SECONDS = 600;
 const TREND_LIMIT = 10;
-const CACHE_VERSION = "v5-youtube";
+const CACHE_VERSION = "v6-youtube";
 
 export default {
   async fetch(request, env, context) {
