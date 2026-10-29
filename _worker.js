@@ -1,6 +1,7 @@
 const CACHE_SECONDS = 600;
+const RETRY_CACHE_SECONDS = 60;
 const TREND_LIMIT = 10;
-const CACHE_VERSION = "v10-top10";
+const CACHE_VERSION = "v11-top10";
 
 export default {
   async fetch(request, env, context) {
@@ -24,26 +25,32 @@ async function handleTrends(request, env, context) {
     return withCors(cached);
   }
 
+  const errors = {};
   const [naver, google, daum] = await Promise.all([
-    safeFetch(fetchNaverTrends),
-    safeFetch(fetchGoogleTrends),
-    safeFetch(fetchDaumTrends)
+    safeFetch("naver", fetchNaverTrends, errors),
+    safeFetch("google", fetchGoogleTrends, errors),
+    safeFetch("daum", fetchDaumTrends, errors)
   ]);
 
   const response = jsonResponse({
     updatedAt: new Date().toISOString(),
-    data: { naver, google, daum }
+    data: { naver, google, daum },
+    ...(Object.keys(errors).length ? { errors } : {})
   });
 
-  response.headers.set("Cache-Control", `public, max-age=${CACHE_SECONDS}`);
+  // 한 곳이라도 비어 있으면 짧게만 캐시해서 빨리 다시 시도한다.
+  const complete = naver.length && google.length && daum.length;
+  const seconds = complete ? CACHE_SECONDS : RETRY_CACHE_SECONDS;
+  response.headers.set("Cache-Control", `public, max-age=${seconds}`);
   context.waitUntil(cache.put(cacheKey, response.clone()));
   return withCors(response);
 }
 
-async function safeFetch(fetcher) {
+async function safeFetch(name, fetcher, errors) {
   try {
     return await fetcher();
   } catch (error) {
+    errors[name] = String(error.message || error);
     return [];
   }
 }
@@ -69,57 +76,45 @@ async function fetchNaverTrends() {
   })).filter((item) => item.query);
 }
 
+const GOOGLE_RSS_URLS = [
+  "https://trends.google.com/trending/rss?geo=KR&hl=ko",
+  "https://trends.google.co.kr/trending/rss?geo=KR&hl=ko"
+];
+
 async function fetchGoogleTrends() {
-  const daily = await safeGoogleDailyTrends();
-  if (daily.length) {
-    return daily;
-  }
+  const failures = [];
 
-  const url = "https://trends.google.com/trending/rss?geo=KR";
-  const response = await fetch(url, {
-    headers: {
-      "User-Agent": "Mozilla/5.0",
-      "Accept": "application/rss+xml,text/xml;q=0.9,*/*;q=0.8"
-    }
-  });
+  for (const url of GOOGLE_RSS_URLS) {
+    try {
+      const response = await fetch(url, {
+        headers: {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+          "Accept": "application/rss+xml,text/xml;q=0.9,*/*;q=0.8",
+          "Accept-Language": "ko-KR,ko;q=0.9"
+        }
+      });
 
-  if (!response.ok) {
-    throw new Error(`Google Trends RSS failed: ${response.status}`);
-  }
-
-  const xml = await response.text();
-  return parseRssTitles(xml).slice(0, TREND_LIMIT).map((query, index) => ({
-    position: index + 1,
-    query
-  }));
-}
-
-async function safeGoogleDailyTrends() {
-  try {
-    const url = "https://trends.google.com/trends/api/dailytrends?hl=ko&tz=-540&geo=KR&ns=15";
-    const response = await fetch(url, {
-      headers: {
-        "User-Agent": "Mozilla/5.0",
-        "Accept": "application/json,text/plain,*/*"
+      if (!response.ok) {
+        failures.push(`${new URL(url).host} ${response.status}`);
+        continue;
       }
-    });
 
-    if (!response.ok) {
-      return [];
+      const xml = await response.text();
+      const rows = parseRssTitles(xml).slice(0, TREND_LIMIT).map((query, index) => ({
+        position: index + 1,
+        query
+      }));
+
+      if (rows.length) {
+        return rows;
+      }
+      failures.push(`${new URL(url).host} empty`);
+    } catch (error) {
+      failures.push(`${new URL(url).host} ${error.message || error}`);
     }
-
-    const text = await response.text();
-    const jsonText = text.replace(/^\)\]\}',?\s*/, "");
-    const payload = JSON.parse(jsonText);
-    const items = payload?.default?.trendingSearchesDays?.[0]?.trendingSearches || [];
-
-    return items.slice(0, TREND_LIMIT).map((item, index) => ({
-      position: index + 1,
-      query: String(item?.title?.query || "").trim()
-    })).filter((item) => item.query);
-  } catch (error) {
-    return [];
   }
+
+  throw new Error(`Google Trends RSS failed: ${failures.join(", ")}`);
 }
 
 async function fetchDaumTrends() {
