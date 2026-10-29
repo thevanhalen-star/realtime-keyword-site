@@ -7,43 +7,79 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.jumpkeyword.com/about.html</loc>
+    <loc>https://www.jumpkeyword.com/blog/</loc>
     <lastmod>2026-10-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.jumpkeyword.com/guide.html</loc>
-    <lastmod>2026-10-29</lastmod>
-    <changefreq>monthly</changefreq>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.jumpkeyword.com/faq.html</loc>
+    <loc>https://www.jumpkeyword.com/blog/why-realtime-search-ended</loc>
     <lastmod>2026-10-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.jumpkeyword.com/data-source.html</loc>
+    <loc>https://www.jumpkeyword.com/blog/google-trends-guide</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.jumpkeyword.com/blog/find-topics-with-trends</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.jumpkeyword.com/blog/compare-portal-keywords</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.jumpkeyword.com/blog/verify-trending-keywords</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.jumpkeyword.com/guide</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.jumpkeyword.com/faq</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.jumpkeyword.com/about</loc>
     <lastmod>2026-10-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.jumpkeyword.com/privacy.html</loc>
+    <loc>https://www.jumpkeyword.com/data-source</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.jumpkeyword.com/privacy</loc>
     <lastmod>2026-10-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://www.jumpkeyword.com/contact.html</loc>
+    <loc>https://www.jumpkeyword.com/terms</loc>
     <lastmod>2026-10-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://www.jumpkeyword.com/terms.html</loc>
+    <loc>https://www.jumpkeyword.com/contact</loc>
     <lastmod>2026-10-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
