@@ -286,6 +286,36 @@ body{
 .common-list a small{font-weight:400;color:#8a5a00;margin-left:4px}
 .common-list a:hover{text-decoration:underline}
 .hint{margin:0;font-size:12px;color:#777}
+.yt-section{width:100%;max-width:1180px;margin:7px auto 0}
+.yt-list{
+  margin:0;
+  padding:0;
+  list-style:none;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 20px;
+}
+.yt-list li{
+  display:grid;
+  grid-template-columns:28px minmax(0,1fr);
+  gap:6px;
+  align-items:center;
+  padding:6px 0;
+  border-bottom:1px solid #f0f1f3;
+}
+.yt-list .rank{font-size:11px}
+.yt-title{
+  display:block;
+  color:#111;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:700;
+  line-height:1.3;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+}
+.yt-title:hover{text-decoration:underline}
+.yt-channel{display:block;font-size:11px;color:#777;margin-top:1px}
 .info-strip{
   width:100%;
   max-width:1180px;
@@ -353,6 +383,12 @@ html[data-theme="dark"] .code,
 html[data-theme="dark"] .updated,
 html[data-theme="dark"] .hint{color:#9aa0a8}
 html[data-theme="dark"] .updated{background:#1f2227;border-color:#31353c}
+html[data-theme="dark"] .yt-list li{border-bottom-color:#2a2e34}
+html[data-theme="dark"] .yt-title{color:#e8eaed}
+html[data-theme="dark"] .yt-channel{color:#9aa0a8}
+@media(max-width:900px){
+  .yt-list{grid-template-columns:1fr}
+}
 @media(max-width:1200px){
   .tools{grid-template-columns:1fr}
   .wrap{height:auto}
@@ -416,6 +452,11 @@ html[data-theme="dark"] .updated{background:#1f2227;border-color:#31353c}
       </section>
     </div>
   </div>
+
+  <section class="box yt-section" id="ytSection" hidden>
+    <h2>YouTube 인기 급상승 영상 <small class="hint">한국 · 검색어가 아닌 영상 기준</small></h2>
+    <ol class="yt-list" id="ytList"></ol>
+  </section>
 
   <div class="tools">
     <section class="box">
@@ -534,6 +575,25 @@ function formatUpdated(value){
   }).format(date);
 }
 
+function renderYouTube(rows){
+  const section = document.getElementById("ytSection");
+  const list = Array.isArray(rows) ? rows.slice(0, 10) : [];
+  section.hidden = list.length === 0;
+  document.getElementById("ytList").innerHTML = list.map((x, idx) => {
+    const pos = x.position || (idx + 1);
+    const href = /^https:\/\/www\.youtube\.com\//.test(x.url || "") ? x.url : "";
+    if (!href) return "";
+    return `<li>
+      <div class="rank">${String(pos).padStart(2,"0")}</div>
+      <div>
+        <a class="yt-title" href="${esc(href)}" target="_blank" rel="noopener"
+           data-provider="youtube" data-keyword="${esc(x.query)}" data-rank="${esc(pos)}">${esc(x.query)}</a>
+        <span class="yt-channel">${esc(x.channel)}</span>
+      </div>
+    </li>`;
+  }).join("");
+}
+
 const NAMES = { naver: "네이버", google: "구글", daum: "다음" };
 
 function findCommon(data){
@@ -602,6 +662,7 @@ async function loadTrends(){
     const commonSet = new Set(common.map((c) => c.norm));
     PANELS.forEach(([target, key, searchUrl]) => render(target, payload.data?.[key], searchUrl, key, prev, commonSet));
     renderCommon(common);
+    renderYouTube(payload.data?.youtube);
     document.getElementById("updated").textContent = "갱신 " + formatUpdated(payload.updatedAt);
   } catch (error) {
     document.getElementById("updated").textContent = "갱신 실패";
@@ -612,7 +673,7 @@ async function loadTrends(){
 }
 
 document.addEventListener("click", (event) => {
-  const link = event.target.closest("a.query");
+  const link = event.target.closest("a.query, a.yt-title");
   if (!link || typeof gtag !== "function") return;
 
   gtag("event", "keyword_click", {

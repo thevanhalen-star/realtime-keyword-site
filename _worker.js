@@ -1,20 +1,20 @@
 const CACHE_SECONDS = 600;
 const TREND_LIMIT = 10;
-const CACHE_VERSION = "v4-top10";
+const CACHE_VERSION = "v5-youtube";
 
 export default {
   async fetch(request, env, context) {
     const url = new URL(request.url);
 
     if (url.pathname === "/api/trends") {
-      return handleTrends(request, context);
+      return handleTrends(request, env, context);
     }
 
     return env.ASSETS.fetch(request);
   }
 };
 
-async function handleTrends(request, context) {
+async function handleTrends(request, env, context) {
   const cache = caches.default;
   const origin = new URL(request.url).origin;
   const cacheKey = new Request(`${origin}/api/trends-cache-${CACHE_VERSION}`);
@@ -24,15 +24,16 @@ async function handleTrends(request, context) {
     return withCors(cached);
   }
 
-  const [naver, google, daum] = await Promise.all([
+  const [naver, google, daum, youtube] = await Promise.all([
     safeFetch(fetchNaverTrends),
     safeFetch(fetchGoogleTrends),
-    safeFetch(fetchDaumTrends)
+    safeFetch(fetchDaumTrends),
+    safeFetch(() => fetchYouTubeTrends(env.YOUTUBE_API_KEY))
   ]);
 
   const response = jsonResponse({
     updatedAt: new Date().toISOString(),
-    data: { naver, google, daum }
+    data: { naver, google, daum, youtube }
   });
 
   response.headers.set("Cache-Control", `public, max-age=${CACHE_SECONDS}`);
@@ -136,6 +137,35 @@ async function fetchDaumTrends() {
 
   const html = await response.text();
   return parseDaumKeywords(html);
+}
+
+async function fetchYouTubeTrends(apiKey) {
+  if (!apiKey) {
+    return [];
+  }
+
+  const params = new URLSearchParams({
+    part: "snippet",
+    chart: "mostPopular",
+    regionCode: "KR",
+    maxResults: String(TREND_LIMIT),
+    key: apiKey
+  });
+  const response = await fetch(`https://www.googleapis.com/youtube/v3/videos?${params}`, {
+    headers: { "Accept": "application/json" }
+  });
+
+  if (!response.ok) {
+    throw new Error(`YouTube API failed: ${response.status}`);
+  }
+
+  const payload = await response.json();
+  return (payload.items || []).slice(0, TREND_LIMIT).map((item, index) => ({
+    position: index + 1,
+    query: String(item?.snippet?.title || "").trim(),
+    channel: String(item?.snippet?.channelTitle || "").trim(),
+    url: `https://www.youtube.com/watch?v=${encodeURIComponent(item?.id || "")}`
+  })).filter((item) => item.query && item.url.length > 32);
 }
 
 function parseRssTitles(xml) {
