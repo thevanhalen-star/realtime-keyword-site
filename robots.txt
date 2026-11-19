@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://www.jumpkeyword.com/sitemap.xml
+Sitemap: https://www.jumpkeyword.com/sitemap-archive.xml
