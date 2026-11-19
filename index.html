@@ -23,13 +23,12 @@ gtag('config', 'G-RQ51W3D2QJ');
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="author" content="Jump Keyword">
 <meta name="application-name" content="Jump Keyword">
-<meta name="theme-color" content="#f4f5f7">
+<meta name="theme-color" content="#07050D">
 <script>
 (function(){
   var theme = "";
   try { theme = localStorage.getItem("jk_theme") || ""; } catch (e) {}
-  if (!theme && window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) theme = "dark";
-  if (theme === "dark") document.documentElement.setAttribute("data-theme", "dark");
+  if (theme === "light") document.documentElement.setAttribute("data-theme", "light");
 })();
 </script>
 <meta name="format-detection" content="telephone=no">
@@ -62,386 +61,309 @@ gtag('config', 'G-RQ51W3D2QJ');
   "description": "네이버, 구글, 다음 실시간 급상승 키워드를 한 화면에서 확인할 수 있는 한국어 트렌드 모니터링 도구입니다."
 }
 </script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap">
 <style>
 *{box-sizing:border-box}
+:root{
+  --bg:#07050D;--card:#0D0A16;--line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.06);
+  --text:#fff;--sub:#A9A3B8;--mute:#8F889F;--body:#C4BED2;--accent:#B66DFF;--accent2:#C9A2FF;
+  --hi:#C28BFF;--green:#2EE59D;--pink:#FF8FA8;--hover:rgba(255,255,255,.04);
+  --input:rgba(255,255,255,.05);--cta:#120C22;--glow:rgba(120,50,230,.28);--panel:rgba(15,12,24,.88);
+  --font:'Noto Sans KR',system-ui,"Malgun Gothic",sans-serif;--num:'Space Grotesk','Noto Sans KR',sans-serif;
+}
+html[data-theme="light"]{
+  --bg:#f6f4fb;--card:#fff;--line:#e3dff0;--line2:#eeebf6;
+  --text:#17121f;--sub:#5d566b;--mute:#7a738a;--body:#463f54;--accent:#7a2fea;--accent2:#6b2fd0;
+  --hi:#7a2fea;--green:#0a9e66;--pink:#d6335a;--hover:rgba(0,0,0,.04);
+  --input:#fff;--cta:#f0eafc;--glow:rgba(120,50,230,.14);--panel:rgba(255,255,255,.92);
+}
 html,body{margin:0;padding:0}
-body{
-  font-family:Arial,"Malgun Gothic",sans-serif;
-  background:#f4f5f7;
-  color:#151515;
-  overflow:auto;
+body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.5;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+.sec{max-width:1200px;margin:0 auto;padding:24px;position:relative}
+.head{max-width:1200px;margin:0 auto;padding:0 24px;min-height:76px;display:flex;align-items:center;gap:40px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px}
+.brand span{font-weight:800;font-size:20px;letter-spacing:-.02em}
+.nav{display:flex;gap:30px;font-size:15px;font-weight:500;color:var(--sub);flex:1;flex-wrap:wrap}
+.nav a:hover,.nav a.on{color:var(--text)}
+.head-r{display:flex;align-items:center;gap:12px}
+.updated{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--green);border:1px solid color-mix(in srgb,var(--green) 38%,transparent);border-radius:999px;padding:8px 14px;white-space:nowrap}
+.updated::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green)}
+.theme-toggle{height:44px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--text);font-size:13px;font-weight:700;cursor:pointer}
+.hero{padding-top:48px;padding-bottom:40px;display:flex;gap:56px;align-items:center;flex-wrap:wrap}
+.wave{position:absolute;left:50%;top:0;transform:translateX(-50%);width:1440px;max-width:none;height:560px;pointer-events:none;z-index:0}
+.hero-l{position:relative;z-index:1;flex:1 1 480px;min-width:0}
+.eyebrow{font-size:13px;letter-spacing:.28em;color:var(--sub);font-family:var(--num)}
+h1{margin:20px 0 0;font-size:clamp(38px,5.4vw,64px);line-height:1.12;font-weight:800;letter-spacing:-.035em}
+h1 em{font-style:normal;color:var(--accent)}
+.lead{margin:24px 0 0;font-size:18px;line-height:1.7;color:var(--body);max-width:520px}
+.search{margin-top:32px;display:flex;gap:10px;max-width:560px;flex-wrap:wrap}
+.search input{flex:1 1 100%;min-width:0;height:56px;border-radius:14px;border:1px solid var(--line);background:var(--input);color:var(--text);font:500 16px var(--font);padding:0 20px;outline:none}
+.search input:focus{border-color:var(--accent)}
+.btn{height:52px;padding:0 22px;border-radius:14px;border:1px solid var(--line);background:transparent;color:var(--text);font:700 15px var(--font);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn.g{flex:1 1 auto;border:0;background:#2EE59D;color:#04130C}
+.btn:hover{filter:brightness(1.1)}
+.quick{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;font-size:14px;color:var(--sub);align-items:center}
+.quick a{padding:8px 14px;border-radius:999px;border:1px solid var(--line);color:var(--text)}
+.live{position:relative;z-index:1;flex:1 1 400px;min-width:0;max-width:500px;background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:0 30px 80px var(--glow)}
+.live-h{display:flex;justify-content:space-between;align-items:center}
+.live-h b{font-size:18px}
+.live-h span{display:flex;align-items:center;gap:8px;font:700 13px var(--num);color:var(--green)}
+.live-h span::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green)}
+.live-rows{margin-top:14px}
+.live-note{margin-top:14px;font-size:12px;color:var(--mute)}
+.krow{display:flex;align-items:center;gap:12px;padding:0 8px;height:52px;border-top:1px solid var(--line2);border-radius:10px}
+.krow:hover{background:var(--hover)}
+.krow:first-child{border-top:0}
+.rk{width:26px;flex:none;font:700 18px var(--num);color:var(--text)}
+.krow.top .rk{color:var(--hi)}
+.kw{flex:1;min-width:0;font-weight:500;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.src{font-size:12px;color:var(--sub);letter-spacing:.04em;font-family:var(--num)}
+.badges{display:flex;align-items:center;gap:6px;white-space:nowrap;min-width:52px;justify-content:flex-end}
+.chg{font:700 13px var(--num);color:var(--mute)}
+.chg.up{color:var(--green)}.chg.down{color:var(--pink)}.chg.new{color:var(--accent2)}
+.tag{font-size:11px;font-weight:700;color:var(--accent2);border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);border-radius:999px;padding:1px 8px}
+.stats{display:flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:24px;background:var(--card)}
+.stat{flex:1 1 260px;padding:30px 36px;display:flex;align-items:center;gap:20px}
+.stat+.stat{border-left:1px solid var(--line2)}
+.stat svg{flex:none}
+.stat b{display:block;font:700 40px/1 var(--num)}
+.stat b small{font-size:22px;margin-left:4px}
+.stat span{display:block;margin-top:8px;color:var(--sub);font-size:15px}
+.sh{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px}
+h2{margin:0;font-size:clamp(28px,3.4vw,40px);line-height:1.2;font-weight:800;letter-spacing:-.03em}
+h2 em{font-style:normal;color:var(--accent)}
+.sh .s{font-size:14px;color:var(--sub)}
+.kick{font-size:13px;letter-spacing:.24em;color:var(--green);font-family:var(--num);margin-bottom:12px}
+.desc{margin:14px 0 0;color:var(--sub);font-size:16px;line-height:1.6}
+.tabs{display:none}
+.boards{margin-top:32px;display:flex;gap:20px;flex-wrap:wrap}
+.board{flex:1 1 340px;min-width:0;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:24px 20px 12px}
+.board-h{display:flex;align-items:center;gap:12px;padding:0 8px 16px}
+.chip{width:38px;height:38px;border-radius:10px;color:#fff;display:flex;align-items:center;justify-content:center;font:700 17px var(--num)}
+.board-h b{font-size:20px;flex:1}
+.board-h a{font-size:13px;color:var(--accent2)}
+.msg{padding:18px 8px;font-size:15px;color:var(--sub)}
+.cross{margin-top:32px;display:flex;gap:20px;flex-wrap:wrap}
+.cc{flex:1 1 250px;min-width:0;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:26px;display:block}
+.cc-h{display:flex;justify-content:space-between;align-items:center}
+.cc-h span{font:700 13px var(--num);color:var(--accent2);border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);border-radius:999px;padding:5px 12px}
+.cc-k{margin-top:22px;font-weight:800;font-size:24px;letter-spacing:-.02em;word-break:keep-all}
+.cc-r{margin-top:22px;display:flex;gap:8px}
+.cc-r div{flex:1;background:var(--hover);border-radius:12px;padding:10px 0;text-align:center}
+.cc-r small{display:block;font-size:12px;color:var(--sub)}
+.cc-r b{display:block;margin-top:4px;font:700 20px var(--num)}
+.movers{margin-top:32px;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:12px 20px}
+.mv{display:flex;align-items:center;gap:12px;height:56px;border-top:1px solid var(--line2)}
+.mv:first-child{border-top:0}
+.mv .kw{font-size:15px}
+.mv .pv{font-size:12px;color:var(--mute);min-width:36px}
+.mv .ft{font-size:12px;color:var(--mute)}
+.mv .to{font:700 18px var(--num);min-width:34px;text-align:right}
+.contents{margin-top:32px;display:flex;gap:20px;flex-wrap:wrap}
+.ct{flex:1 1 250px;min-width:0;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px;display:block}
+.ct:hover{border-color:color-mix(in srgb,var(--accent) 50%,transparent)}
+.ct i{width:48px;height:48px;border-radius:14px;background:color-mix(in srgb,var(--accent) 18%,transparent);display:flex;align-items:center;justify-content:center}
+.ct b{display:block;margin-top:22px;font-size:20px}
+.ct p{margin:10px 0 0;font-size:15px;line-height:1.65;color:var(--sub)}
+.cta{border-radius:28px;border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);background:var(--cta);padding:48px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.cta b{display:block;font-weight:800;font-size:32px;letter-spacing:-.02em;line-height:1.3}
+.cta p{margin:12px 0 0;color:var(--sub);font-size:16px}
+.cta .btn{height:56px;padding:0 32px}
+.foot{max-width:1200px;margin:0 auto;padding:40px 24px 48px}
+.foot-in{border-top:1px solid var(--line);padding-top:40px;display:flex;gap:48px;flex-wrap:wrap}
+.foot-in>div{flex:1 1 140px;font-size:14px;color:var(--sub)}
+.foot-in>div:first-child{flex:2 1 300px}
+.foot-in a{display:block;line-height:2.2}
+.foot-in a:hover{color:var(--text)}
+.foot-in h3{margin:0 0 6px;font-size:14px;color:var(--text)}
+.foot-in p{margin:14px 0 0;font-size:14px;line-height:1.7;color:var(--mute);max-width:380px}
+.copy{margin-top:32px;font-size:13px;color:var(--mute)}
+@media(max-width:900px){
+  .head{gap:12px;padding-top:10px;padding-bottom:6px}
+  .head-r{margin-left:auto}
+  .nav{order:3;flex:1 1 100%;flex-wrap:nowrap;overflow-x:auto;gap:22px;padding-bottom:6px;white-space:nowrap}
 }
-.wrap{
-  width:100%;
-  margin:0 auto;
-  padding:4px 4px 20px;
-  display:flex;
-  flex-direction:column;
-}
-.notice{
-  height:24px;
-  margin:4px 0 16px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:14px;
-  font-weight:700;
-}
-.header{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:10px;
-  padding:24px 2px 4px;
-}
-.title-row{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  flex-wrap:wrap;
-}
-.logo{
-  width:34px;
-  height:34px;
-  border-radius:9px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(135deg,#ff4b55,#c9121a);
-  color:#fff;
-  font-size:17px;
-  font-weight:800;
-  box-shadow:0 2px 6px rgba(215,25,32,.35);
-}
-.header h1{
-  margin:0;
-  font-size:26px;
-  letter-spacing:-.5px;
-  text-align:center;
-}
-.updated{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  padding:3px 10px;
-  font-size:11px;
-  color:#666;
-  white-space:nowrap;
-  background:#fff;
-  border:1px solid #dfe2e7;
-  border-radius:12px;
-}
-.updated::before{
-  content:"";
-  width:6px;
-  height:6px;
-  border-radius:50%;
-  background:#2fb344;
-}
-:root{--row-h:44px}
-.main-layout{
-  display:grid;
-  grid-template-columns:minmax(0,1180px);
-  justify-content:center;
-  gap:8px;
-}
-.grid{
-  min-width:0;
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:4px;
-}
-.panel{
-  min-width:0;
-  background:#fff;
-  border:1px solid #dfe2e7;
-  border-radius:7px;
-  overflow:hidden;
-}
-.panel-head{
-  position:relative;
-  height:27px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:0 7px;
-  border-bottom:1px solid #e8eaed;
-}
-.country{
-  font-size:16px;
-  font-weight:800;
-}
-.code{
-  position:absolute;
-  right:7px;
-  font-size:9px;
-  color:#777;
-}
-.rows{
-  display:grid;
-  grid-template-rows:repeat(10,var(--row-h));
-}
-.row{
-  min-height:0;
-  display:grid;
-  grid-template-columns:28px minmax(0,1fr);
-  align-items:center;
-  gap:6px;
-  padding:0 8px;
-  border-bottom:1px solid #f0f1f3;
-}
-.row:last-child{border-bottom:0}
-.rank{
-  font-size:11px;
-  font-weight:700;
-  color:#777;
-  text-align:center;
-}
-.query{
-  display:block;
-  min-width:0;
-  white-space:normal;
-  word-break:keep-all;
-  overflow-wrap:anywhere;
-  color:#111;
-  text-decoration:none;
-  font-size:15px;
-  font-weight:700;
-  line-height:1.25;
-  display:-webkit-box;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
-}
-.row.hot .rank,
-.row.hot .query{color:#d71920}
-.query:hover{text-decoration:underline}
-.message{
-  padding:18px;
-  font-size:15px;
-  color:#666;
-}
-.row{grid-template-columns:28px minmax(0,1fr) auto}
-.badges{display:flex;align-items:center;gap:4px;white-space:nowrap}
-.chg{font-size:10px;font-weight:700;color:#777}
-.chg.up{color:#d71920}
-.chg.down{color:#1a5fd0}
-.chg.new{color:#fff;background:#d71920;border-radius:3px;padding:1px 4px}
-.common-tag{font-size:10px;font-weight:700;color:#8a5a00;background:#fff1c9;border-radius:3px;padding:1px 4px}
-.tools{
-  width:100%;
-  max-width:1180px;
-  margin:12px auto 0;
-  display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-  gap:4px;
-}
-.box{
-  background:#fff;
-  border:1px solid #dfe2e7;
-  border-radius:7px;
-  padding:10px 12px;
-  min-width:0;
-}
-.box h2{margin:0 0 8px;font-size:14px}
-.search-form{display:flex;gap:6px;flex-wrap:wrap}
-.search-form input{
-  flex:1 1 160px;
-  min-width:0;
-  padding:8px 10px;
-  font-size:14px;
-  border:1px solid #cfd3da;
-  border-radius:6px;
-  background:#fff;
-  color:inherit;
-}
-.search-form button{
-  padding:8px 12px;
-  font-size:13px;
-  font-weight:700;
-  border:1px solid #cfd3da;
-  border-radius:6px;
-  background:#f4f5f7;
-  color:inherit;
-  cursor:pointer;
-}
-.search-form button:hover{background:#e8eaed}
-.common-list{display:flex;flex-wrap:wrap;gap:6px}
-.common-list a{
-  font-size:13px;
-  font-weight:700;
-  color:#111;
-  text-decoration:none;
-  background:#fff1c9;
-  border-radius:14px;
-  padding:4px 10px;
-}
-.common-list a small{font-weight:400;color:#8a5a00;margin-left:4px}
-.common-list a:hover{text-decoration:underline}
-.hint{margin:0;font-size:12px;color:#777}
-.info-strip{
-  width:100%;
-  max-width:1180px;
-  margin:12px auto 0;
-  padding:7px 8px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  border:1px solid #dfe2e7;
-  border-radius:7px;
-  background:#fff;
-  color:#555;
-  font-size:12px;
-  line-height:1.35;
-}
-.site-links{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  justify-content:flex-end;
-  white-space:nowrap;
-}
-.site-links a{
-  color:#333;
-  text-decoration:none;
-  font-weight:700;
-}
-.site-links a:hover{text-decoration:underline}
-.theme-toggle{
-  padding:5px 11px;
-  font-size:12px;
-  font-weight:700;
-  border:1px solid #cfd3da;
-  border-radius:14px;
-  background:#fff;
-  color:#333;
-  cursor:pointer;
-}
-html[data-theme="dark"] body{background:#15171a;color:#e8eaed}
-html[data-theme="dark"] .panel,
-html[data-theme="dark"] .box,
-html[data-theme="dark"] .info-strip{background:#1f2227;border-color:#31353c}
-html[data-theme="dark"] .panel-head{border-bottom-color:#31353c}
-html[data-theme="dark"] .row{border-bottom-color:#2a2e34}
-html[data-theme="dark"] .query,
-html[data-theme="dark"] .site-links a,
-html[data-theme="dark"] .common-list a{color:#e8eaed}
-html[data-theme="dark"] .row.hot .rank,
-html[data-theme="dark"] .row.hot .query{color:#ff6b70}
-html[data-theme="dark"] .chg.up{color:#ff6b70}
-html[data-theme="dark"] .chg.down{color:#6ea2ff}
-html[data-theme="dark"] .common-tag,
-html[data-theme="dark"] .common-list a{background:#4a3a12}
-html[data-theme="dark"] .common-tag,
-html[data-theme="dark"] .common-list a small{color:#ffd678}
-html[data-theme="dark"] .search-form input{background:#15171a;border-color:#3a3f47}
-html[data-theme="dark"] .search-form button{background:#2a2e34;border-color:#3a3f47}
-html[data-theme="dark"] .search-form button:hover{background:#353a42}
-html[data-theme="dark"] .theme-toggle{background:#2a2e34;border-color:#3a3f47;color:#e8eaed}
-html[data-theme="dark"] .info-strip,
-html[data-theme="dark"] .message,
-html[data-theme="dark"] .rank,
-html[data-theme="dark"] .code,
-html[data-theme="dark"] .updated,
-html[data-theme="dark"] .hint{color:#9aa0a8}
-html[data-theme="dark"] .updated{background:#1f2227;border-color:#31353c}
-@media(max-width:1200px){
-  .tools{grid-template-columns:1fr}
-  .wrap{height:auto}
-  .notice{
-    min-height:25px;
-    height:auto;
-    padding:4px 6px;
-    text-align:center;
-    line-height:1.3;
-  }
-  .header h1{font-size:22px}
-  .main-layout{
-    height:auto;
-    grid-template-columns:1fr;
-  }
-  .grid{
-    height:auto;
-    grid-template-columns:repeat(3,minmax(0,1fr));
-  }
-  .info-strip{
-    align-items:flex-start;
-    flex-direction:column;
-  }
-  .site-links{justify-content:flex-start}
-}
-@media(max-width:640px){
-  .grid{grid-template-columns:1fr}
+@media(max-width:760px){
+  .sec{padding:20px}
+  .head{padding-left:20px;padding-right:20px}
+  .hero{padding-top:28px;gap:28px}
+  .lead{font-size:15px;margin-top:16px}
+  .search{margin-top:22px}
+  .search input{height:52px}
+  .live{padding:22px}
+  .stat{flex:1 1 100%;padding:20px 24px}
+  .stat+.stat{border-left:0;border-top:1px solid var(--line2)}
+  .stat b{font-size:30px}
+  .tabs{display:flex;gap:6px;margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:5px}
+  .tabs button{flex:1;height:44px;border:0;border-radius:10px;background:transparent;color:var(--sub);font:700 15px var(--font);cursor:pointer}
+  .tabs button.on{background:#7A2FEA;color:#fff}
+  .boards{margin-top:12px}
+  .board{display:none;flex-basis:100%;padding:6px 14px;border-radius:20px}
+  .boards[data-active="0"] .board:nth-child(1),.boards[data-active="1"] .board:nth-child(2),.boards[data-active="2"] .board:nth-child(3){display:block}
+  .board-h{display:none}
+  .cross{flex-wrap:nowrap;overflow-x:auto;margin-left:-20px;margin-right:-20px;padding:0 20px 4px}
+  .cc{flex:0 0 240px;padding:20px;border-radius:20px}
+  .cc-k{font-size:20px;margin-top:16px}
+  .cta{padding:28px}
+  .cta b{font-size:24px}
 }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="header">
-    <div class="title-row">
-      <div class="logo" aria-hidden="true">▲</div>
-      <h1>실시간 급상승 키워드</h1>
-      <button type="button" class="theme-toggle" id="themeToggle" aria-label="화면 모드 전환"></button>
+<header class="head">
+  <a class="brand" href="/" aria-label="Jump Keyword 홈">
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect x="3" y="19" width="6" height="11" rx="1.5" fill="#8B3DFF"/><rect x="12" y="13" width="6" height="17" rx="1.5" fill="#A55BFF"/><rect x="21" y="6" width="6" height="24" rx="1.5" fill="#C28BFF"/><path d="M4 12 L14 6 L19 9 L30 2" stroke="#2EE59D" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>점프키워드</span>
+  </a>
+  <nav class="nav" aria-label="주요 메뉴">
+    <a class="on" href="#top10">실시간 급상승</a>
+    <a href="#cross">동시에 오른 키워드</a>
+    <a href="/archive">키워드 기록</a>
+    <a href="/blog/">트렌드 칼럼</a>
+    <a href="/guide">이용 가이드</a>
+  </nav>
+  <div class="head-r">
+    <span class="updated" id="updated">갱신 확인 중</span>
+    <button type="button" class="theme-toggle" id="themeToggle" aria-label="화면 모드 전환"></button>
+  </div>
+</header>
+
+<main>
+<section class="sec hero" id="top">
+  <svg class="wave" aria-hidden="true" viewBox="0 0 1440 520" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="wv" x1="0" x2="1"><stop offset="0" stop-color="#5B21B6" stop-opacity="0"/><stop offset=".5" stop-color="#A855F7"/><stop offset="1" stop-color="#2EE59D" stop-opacity=".7"/></linearGradient>
+      <filter id="gl" x="-10%" y="-50%" width="120%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+    </defs>
+    <g fill="none" stroke="url(#wv)" stroke-width="2.4" stroke-linecap="round">
+      <path d="M0 400 C220 330 380 470 620 380 S1040 250 1220 300 S1400 230 1440 200" filter="url(#gl)" opacity=".8"/>
+      <path d="M0 400 C220 330 380 470 620 380 S1040 250 1220 300 S1400 230 1440 200"/>
+      <path d="M0 440 C240 380 420 500 660 420 S1060 300 1240 350 S1400 290 1440 260" opacity=".55"/>
+      <path d="M0 360 C200 290 360 420 600 340 S1020 210 1200 260 S1400 190 1440 160" opacity=".35"/>
+    </g>
+  </svg>
+
+  <div class="hero-l">
+    <div class="eyebrow">NAVER · GOOGLE · DAUM</div>
+    <h1>지금 뜨는 키워드,<br><em>10분마다</em> 한눈에</h1>
+    <p class="lead">네이버, 구글, 다음의 실시간 급상승 키워드를 한 화면에서 비교하고, 여러 서비스에서 동시에 오르는 이슈를 가장 먼저 확인하세요.</p>
+    <form class="search" id="searchForm">
+      <label for="searchInput" style="position:absolute;left:-9999px">키워드 검색</label>
+      <input type="search" id="searchInput" placeholder="궁금한 키워드를 입력하세요" required>
+      <button type="submit" class="btn g" data-engine="naver">네이버 검색
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#04130C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+      <button type="submit" class="btn" data-engine="google">구글</button>
+      <button type="submit" class="btn" data-engine="daum">다음</button>
+    </form>
+    <div class="quick" id="quick"></div>
+  </div>
+
+  <div class="live">
+    <div class="live-h"><b>종합 급상승 TOP 5</b><span id="liveTime">LIVE</span></div>
+    <div class="live-rows" id="liveRows"><div class="msg">불러오는 중</div></div>
+    <div class="live-note">N 네이버 · G 구글 · D 다음 · 세 서비스 순위를 합산한 참고용 순서입니다</div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="stats">
+    <div class="stat">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#B66DFF" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      <div><b>10<small>분</small></b><span>업데이트 주기</span></div>
     </div>
-    <div class="updated" id="updated">갱신 확인 중</div>
-  </div>
-
-  <div class="notice">네이버 · 구글 · 다음 실시간 급상승 키워드를 10분 간격으로 업데이트합니다.</div>
-
-  <div class="main-layout">
-    <div class="grid">
-      <section class="panel">
-        <div class="panel-head"><div class="country">네이버</div><div class="code">NAVER</div></div>
-        <div class="rows" id="naverList"><div class="message">불러오는 중</div></div>
-      </section>
-
-      <section class="panel">
-        <div class="panel-head"><div class="country">구글</div><div class="code">GOOGLE</div></div>
-        <div class="rows" id="googleList"><div class="message">불러오는 중</div></div>
-      </section>
-
-      <section class="panel">
-        <div class="panel-head"><div class="country">다음</div><div class="code">DAUM</div></div>
-        <div class="rows" id="daumList"><div class="message">불러오는 중</div></div>
-      </section>
+    <div class="stat">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#B66DFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
+      <div><b>3<small>개</small></b><span>비교하는 검색 서비스</span></div>
+    </div>
+    <div class="stat">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#B66DFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+      <div><b>TOP 10</b><span>서비스별 순위와 변동</span></div>
     </div>
   </div>
+</section>
 
-  <div class="tools">
-    <section class="box">
-      <h2>바로 검색</h2>
-      <form class="search-form" id="searchForm">
-        <input type="search" id="searchInput" placeholder="검색어를 입력하세요" aria-label="검색어" required>
-        <button type="submit" data-engine="naver">네이버</button>
-        <button type="submit" data-engine="google">구글</button>
-        <button type="submit" data-engine="daum">다음</button>
-      </form>
+<section class="sec" id="top10" style="padding-top:48px">
+  <div class="sh">
+    <h2>서비스별 <em>급상승 키워드</em></h2>
+    <div class="s" id="sub">네이버 · 구글 · 다음 TOP 10</div>
+  </div>
+  <div class="tabs" id="tabs" role="tablist">
+    <button type="button" class="on" data-i="0">네이버</button>
+    <button type="button" data-i="1">구글</button>
+    <button type="button" data-i="2">다음</button>
+  </div>
+  <div class="boards" id="boards" data-active="0">
+    <section class="board">
+      <div class="board-h"><span class="chip" style="background:#12A150">N</span><b>네이버</b><a href="https://search.naver.com/" target="_blank" rel="noopener">바로 가기 ›</a></div>
+      <div id="naverList"><div class="msg">불러오는 중</div></div>
     </section>
-    <section class="box">
-      <h2>동시에 오른 키워드</h2>
-      <div class="common-list" id="commonList"><p class="hint">불러오는 중</p></div>
+    <section class="board">
+      <div class="board-h"><span class="chip" style="background:#3367D6">G</span><b>구글</b><a href="https://www.google.com/" target="_blank" rel="noopener">바로 가기 ›</a></div>
+      <div id="googleList"><div class="msg">불러오는 중</div></div>
+    </section>
+    <section class="board">
+      <div class="board-h"><span class="chip" style="background:#6D4AE0">D</span><b>다음</b><a href="https://www.daum.net/" target="_blank" rel="noopener">바로 가기 ›</a></div>
+      <div id="daumList"><div class="msg">불러오는 중</div></div>
     </section>
   </div>
+</section>
 
-  <footer class="info-strip">
-    <div>Jump Keyword는 국내 주요 검색 서비스의 공개 트렌드 흐름을 한 화면에서 확인할 수 있도록 정리한 모니터링 도구입니다.</div>
-    <nav class="site-links" aria-label="사이트 정보">
-      <a href="/archive">키워드 기록</a>
-      <a href="/blog/">트렌드 칼럼</a>
-      <a href="/blog/realtime-search-alternatives">실시간 검색어 대신 볼 수 있는 곳</a>
-      <a href="/blog/what-is-long-tail-keyword">롱테일 키워드란</a>
-      <a href="/guide">이용 가이드</a>
-      <a href="/faq">자주 묻는 질문</a>
-      <a href="/about">사이트 소개</a>
-      <a href="/data-source">데이터 출처</a>
-      <a href="/privacy">개인정보처리방침</a>
-      <a href="/terms">이용약관·면책</a>
-      <a href="/contact">문의</a>
-    </nav>
-  </footer>
-</div>
+<section class="sec" id="cross" style="padding-top:48px">
+  <div class="kick">CROSS TREND</div>
+  <h2>여러 서비스에서 <em>동시에 오른</em> 키워드</h2>
+  <p class="desc">한 곳이 아닌 여러 곳에서 함께 오르는 키워드일수록 지금 가장 뜨거운 이슈입니다.</p>
+  <div class="cross" id="commonList"><div class="msg">불러오는 중</div></div>
+</section>
+
+<section class="sec" id="movers" style="padding-top:48px">
+  <h2>순위 <em>급변동</em></h2>
+  <p class="desc">이 브라우저에서 직전에 확인한 목록과 비교한 순위 변화입니다.</p>
+  <div class="movers" id="moverList"><div class="msg">불러오는 중</div></div>
+</section>
+
+<section class="sec" id="archive" style="padding-top:48px">
+  <div class="sh">
+    <h2>키워드를 <em>더 깊이</em> 읽기</h2>
+    <a href="/blog/" style="font-size:15px;color:var(--accent2)">칼럼 전체보기 ›</a>
+  </div>
+  <div class="contents">
+    <a class="ct" href="/archive"><i><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C9A2FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16M4 12h16M4 19h10"/></svg></i><b>키워드 기록</b><p>지나간 급상승 키워드를 날짜와 시간대별로 다시 찾아보는 아카이브입니다.</p></a>
+    <a class="ct" href="/blog/"><i><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C9A2FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h14v16H5zM9 9h6M9 13h6"/></svg></i><b>트렌드 칼럼</b><p>급상승 키워드를 읽고 해석하는 방법을 정리한 글을 모았습니다.</p></a>
+    <a class="ct" href="/blog/realtime-search-alternatives"><i><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C9A2FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 11-3-6.7M21 4v5h-5"/></svg></i><b>실시간 검색어 대신</b><p>실시간 검색어가 사라진 지금, 트렌드를 확인하는 도구를 비교합니다.</p></a>
+    <a class="ct" href="/blog/what-is-long-tail-keyword"><i><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C9A2FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8M15 7h6v6"/></svg></i><b>롱테일 키워드</b><p>구체적인 세부 검색어의 개념과 찾는 방법, 활용법을 설명합니다.</p></a>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:40px">
+  <div class="cta">
+    <div>
+      <b>놓치지 마세요,<br>다음 급상승은 10분 뒤에 바뀝니다</b>
+      <p>자주 쓰는 서비스를 북마크하고 가장 빠르게 트렌드를 확인하세요.</p>
+    </div>
+    <a href="#top10" class="btn g">실시간 키워드 보기
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#04130C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="foot-in">
+    <div>
+      <b style="font-size:20px;color:var(--text);font-weight:800">점프키워드</b>
+      <p>네이버·구글·다음의 공개 트렌드 흐름을 10분 간격으로 한 화면에 정리한 모니터링 도구입니다. 순위는 각 서비스의 공개 데이터를 기반으로 하며 정확한 검색량이 아닙니다.</p>
+    </div>
+    <div><h3>콘텐츠</h3><a href="/archive">키워드 기록</a><a href="/blog/">트렌드 칼럼</a><a href="/blog/realtime-search-alternatives">실시간 검색어 대신 볼 수 있는 곳</a><a href="/blog/what-is-long-tail-keyword">롱테일 키워드란</a></div>
+    <div><h3>안내</h3><a href="/guide">이용 가이드</a><a href="/faq">자주 묻는 질문</a><a href="/about">사이트 소개</a><a href="/data-source">데이터 출처</a></div>
+    <div><h3>정책 · 문의</h3><a href="/privacy">개인정보처리방침</a><a href="/terms">이용약관·면책</a><a href="/contact">문의</a></div>
+  </div>
+  <div class="copy">© 2026 Jump Keyword. All rights reserved.</div>
+</footer>
 
 <script>
 const PANELS = [
@@ -449,6 +371,9 @@ const PANELS = [
   ["googleList", "google", "https://www.google.com/search?q="],
   ["daumList", "daum", "https://search.daum.net/search?w=tot&q="]
 ];
+const NAMES = { naver: "네이버", google: "구글", daum: "다음" };
+const LETTERS = { naver: "N", google: "G", daum: "D" };
+const SEARCH = Object.fromEntries(PANELS.map(([, key, url]) => [key, url]));
 
 function esc(value){
   return String(value ?? "")
@@ -500,24 +425,23 @@ function render(target, rows, searchUrl, provider, prev, commonSet){
     const pos = x.position || (idx + 1);
     const query = x.query || "";
     const href = (x.url && /^https?:\/\//.test(x.url)) ? x.url : searchUrl + encodeURIComponent(query);
-    const hotClass = idx === 0 ? " hot" : "";
-    const common = commonSet.has(norm(query)) ? '<span class="common-tag">동시</span>' : "";
+    const common = commonSet.has(norm(query)) ? '<span class="tag">동시</span>' : "";
 
-    return `<div class="row${hotClass}">
-      <div class="rank">${String(pos).padStart(2,"0")}</div>
-      <a class="query"
+    return `<a class="krow query${idx < 3 ? " top" : ""}"
          href="${esc(href)}"
          target="_blank"
          rel="noopener"
          data-provider="${esc(provider)}"
          data-keyword="${esc(query)}"
          data-rank="${esc(pos)}"
-         title="${esc(query)}">${esc(query)}</a>
-      <div class="badges">${common}${changeBadge(prev, provider, query, pos)}</div>
-    </div>`;
+         title="${esc(query)}">
+      <span class="rk">${pos}</span>
+      <span class="kw">${esc(query)}</span>
+      <span class="badges">${common}${changeBadge(prev, provider, query, pos)}</span>
+    </a>`;
   }).join("");
 
-  document.getElementById(target).innerHTML = html || '<div class="message">데이터 없음</div>';
+  document.getElementById(target).innerHTML = html || '<div class="msg">데이터 없음</div>';
 }
 
 function formatUpdated(value){
@@ -533,42 +457,109 @@ function formatUpdated(value){
   }).format(date);
 }
 
-const NAMES = { naver: "네이버", google: "구글", daum: "다음" };
+function formatClock(value){
+  const date = value ? new Date(value) : new Date();
+  return new Intl.DateTimeFormat("ko-KR", { hour:"2-digit", minute:"2-digit", hour12:false }).format(date);
+}
 
-function findCommon(data){
+// 키워드별로 어느 서비스에 몇 위로 올랐는지 모은다.
+function collect(data){
   const map = new Map();
   PANELS.forEach(([, key]) => {
-    (data?.[key] || []).slice(0, 10).forEach((x) => {
+    (data?.[key] || []).slice(0, 10).forEach((x, i) => {
       const n = norm(x.query);
       if (!n) return;
-      if (!map.has(n)) map.set(n, { norm: n, query: x.query, providers: [] });
-      map.get(n).providers.push(key);
+      if (!map.has(n)) map.set(n, { norm: n, query: x.query, ranks: {}, score: 0 });
+      const item = map.get(n);
+      const pos = x.position || i + 1;
+      item.ranks[key] = pos;
+      item.score += 11 - pos;
     });
   });
-  return [...map.values()].filter((c) => c.providers.length >= 2);
+  return [...map.values()];
+}
+
+function findCommon(items){
+  return items.filter((c) => Object.keys(c.ranks).length >= 2)
+    .sort((a, b) => Object.keys(b.ranks).length - Object.keys(a.ranks).length || b.score - a.score);
+}
+
+function renderHero(items){
+  const top = [...items].sort((a, b) => b.score - a.score || Object.keys(b.ranks).length - Object.keys(a.ranks).length).slice(0, 5);
+  document.getElementById("liveRows").innerHTML = top.map((c, i) => {
+    const keys = PANELS.map(([, key]) => key).filter((key) => c.ranks[key]);
+    return `<a class="krow${i < 3 ? " top" : ""}" href="${esc(SEARCH.naver + encodeURIComponent(c.query))}" target="_blank" rel="noopener">
+      <span class="rk">${i + 1}</span>
+      <span class="kw">${esc(c.query)}</span>
+      <span class="src">${keys.map((k) => LETTERS[k]).join(" ")}</span>
+    </a>`;
+  }).join("") || '<div class="msg">데이터 없음</div>';
+
+  document.getElementById("quick").innerHTML = top.length
+    ? "<span>인기 검색</span>" + top.slice(0, 4).map((c) => `<a href="${esc(SEARCH.naver + encodeURIComponent(c.query))}" target="_blank" rel="noopener">${esc(c.query)}</a>`).join("")
+    : "";
 }
 
 function renderCommon(common){
   const el = document.getElementById("commonList");
   if (!common.length) {
-    el.innerHTML = '<p class="hint">지금은 2곳 이상에 동시에 오른 키워드가 없습니다.</p>';
+    el.innerHTML = '<div class="msg">지금은 2곳 이상에 동시에 오른 키워드가 없습니다.</div>';
     return;
   }
-  el.innerHTML = common.map((c) =>
-    `<a href="https://www.google.com/search?q=${encodeURIComponent(c.query)}" target="_blank" rel="noopener">${esc(c.query)}<small>${c.providers.map((p) => NAMES[p]).join("·")}</small></a>`
-  ).join("");
+  el.innerHTML = common.slice(0, 8).map((c) => {
+    const cells = PANELS.map(([, key]) => {
+      const pos = c.ranks[key];
+      return `<div><small>${NAMES[key]}</small><b style="color:${pos && pos <= 3 ? "var(--green)" : pos ? "var(--text)" : "var(--mute)"}">${pos ? pos + "위" : "-"}</b></div>`;
+    }).join("");
+    return `<a class="cc" href="${esc(SEARCH.google + encodeURIComponent(c.query))}" target="_blank" rel="noopener">
+      <div class="cc-h"><span>${Object.keys(c.ranks).length} SERVICES</span></div>
+      <div class="cc-k">${esc(c.query)}</div>
+      <div class="cc-r">${cells}</div>
+    </a>`;
+  }).join("");
+}
+
+// 직전 확인 기록과 비교해 순위가 크게 바뀐 키워드를 보여 준다.
+function renderMovers(data, prev){
+  const el = document.getElementById("moverList");
+  const list = [];
+  PANELS.forEach(([, key]) => {
+    const known = prev?.ranks?.[key];
+    if (!known || !Object.keys(known).length) return;
+    (data?.[key] || []).slice(0, 10).forEach((x, i) => {
+      const pos = x.position || i + 1;
+      const before = known[norm(x.query)];
+      if (before === undefined) list.push({ query: x.query, key, from: null, to: pos, diff: 11 - pos + 10, label: "NEW", cls: "new" });
+      else if (before - pos !== 0) {
+        const d = before - pos;
+        list.push({ query: x.query, key, from: before, to: pos, diff: Math.abs(d), label: (d > 0 ? "▲ " : "▼ ") + Math.abs(d), cls: d > 0 ? "up" : "down" });
+      }
+    });
+  });
+  list.sort((a, b) => b.diff - a.diff);
+  if (!list.length) {
+    el.innerHTML = '<div class="msg">비교할 이전 기록이 쌓이면 순위 변화가 여기에 표시됩니다.</div>';
+    return;
+  }
+  el.innerHTML = list.slice(0, 6).map((m) => `<div class="mv">
+      <span class="pv">${NAMES[m.key]}</span>
+      <span class="kw">${esc(m.query)}</span>
+      <span class="ft">${m.from ? m.from + "위 →" : ""}</span>
+      <span class="to">${m.to}위</span>
+      <span class="chg ${m.cls}" style="min-width:48px;text-align:right">${m.label}</span>
+    </div>`).join("");
 }
 
 const themeToggle = document.getElementById("themeToggle");
 
 function syncThemeButton(){
-  const dark = document.documentElement.getAttribute("data-theme") === "dark";
-  themeToggle.textContent = dark ? "☀ 라이트" : "🌙 다크";
+  const light = document.documentElement.getAttribute("data-theme") === "light";
+  themeToggle.textContent = light ? "🌙 다크" : "☀ 라이트";
 }
 
 themeToggle.addEventListener("click", () => {
-  const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
-  if (next === "dark") document.documentElement.setAttribute("data-theme", "dark");
+  const next = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
+  if (next === "light") document.documentElement.setAttribute("data-theme", "light");
   else document.documentElement.removeAttribute("data-theme");
   try { localStorage.setItem("jk_theme", next); } catch (e) {}
   syncThemeButton();
@@ -590,6 +581,13 @@ document.getElementById("searchForm").addEventListener("submit", (event) => {
   window.open(ENGINES[engine] + encodeURIComponent(q), "_blank", "noopener");
 });
 
+document.getElementById("tabs").addEventListener("click", (event) => {
+  const btn = event.target.closest("button[data-i]");
+  if (!btn) return;
+  document.getElementById("boards").dataset.active = btn.dataset.i;
+  document.querySelectorAll("#tabs button").forEach((b) => b.classList.toggle("on", b === btn));
+});
+
 async function loadTrends(){
   try {
     const response = await fetch("/api/trends", { cache: "no-store" });
@@ -597,16 +595,22 @@ async function loadTrends(){
 
     const payload = await response.json();
     const prev = updateSnapshot(payload);
-    const common = findCommon(payload.data);
+    const items = collect(payload.data);
+    const common = findCommon(items);
     const commonSet = new Set(common.map((c) => c.norm));
     PANELS.forEach(([target, key, searchUrl]) => render(target, payload.data?.[key], searchUrl, key, prev, commonSet));
+    renderHero(items);
     renderCommon(common);
+    renderMovers(payload.data, prev);
     document.getElementById("updated").textContent = "갱신 " + formatUpdated(payload.updatedAt);
+    document.getElementById("liveTime").textContent = "LIVE " + formatClock(payload.updatedAt);
+    document.getElementById("sub").textContent = "마지막 업데이트 " + formatClock(payload.updatedAt) + " · 10분마다 갱신";
   } catch (error) {
     document.getElementById("updated").textContent = "갱신 실패";
     PANELS.forEach(([target]) => {
-      document.getElementById(target).innerHTML = '<div class="message">데이터를 불러오지 못했습니다</div>';
+      document.getElementById(target).innerHTML = '<div class="msg">데이터를 불러오지 못했습니다</div>';
     });
+    document.getElementById("liveRows").innerHTML = '<div class="msg">데이터를 불러오지 못했습니다</div>';
   }
 }
 
